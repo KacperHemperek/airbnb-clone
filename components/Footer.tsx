@@ -5,7 +5,7 @@ function Footer() {
     const hStyle = " text-sm font-bold uppercase";
 
     return (
-        <footer className="border-t-2  bg-gray-100 text-xs text-gray-700">
+        <footer className="border-t-2  bg-gray-100 text-xs text-gray-600">
             <div className="mx-auto grid max-w-7xl px-8 py-16 md:grid-cols-3 md:px-16 lg:py-8 xl:px-0">
                 <div className={gridChild}>
                     <h4 className={hStyle}>About</h4>

@@ -9,6 +9,8 @@ import MediumCard from "../components/MediumCard";
 import SmallCard from "../components/SmallCard";
 import { AnywhereDateType, ExploreDataType } from "../interface/Types";
 
+
+
 const Home: NextPage<{
     exploreData?: ExploreDataType[];
     anywhereData?: AnywhereDateType[];

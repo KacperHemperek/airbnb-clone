@@ -1,0 +1,13 @@
+
+
+.responsive:first-child > div:first-child {
+    display: none;
+}
+
+@media (min-width: 768px) {
+    .responsive:first-child > div:first-child {
+        display: flex;
+        flex-direction: column;
+    }
+} 
+
