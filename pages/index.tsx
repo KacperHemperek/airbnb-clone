@@ -15,6 +15,7 @@ const Home: NextPage<{
     exploreData?: ExploreDataType[];
     anywhereData?: AnywhereDateType[];
 }> = ({ exploreData, anywhereData }) => {
+
     return (
         <div className="">
             <Head>

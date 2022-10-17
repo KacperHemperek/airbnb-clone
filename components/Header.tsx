@@ -12,12 +12,21 @@ import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import { DateRangePicker, Range } from "react-date-range";
 import styles from "../styles/styles.module.css";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { format } from "date-fns";
 
-function Header() {
-    const [search, setSearch] = useState("");
+type HeaderProps = {
+    placeholder?: string;
+};
+
+function Header({ placeholder }: HeaderProps) {
+    const [searchInput, setSearchInput] = useState("");
     const [count, setCount] = useState(1);
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
+
+    const router = useRouter();
 
     const selectionRange: Range = {
         startDate,
@@ -25,32 +34,47 @@ function Header() {
         key: "selection",
     };
 
+    function search() {
+        router.push({
+            pathname: "/search",
+            query: {
+                q: searchInput,
+                start: startDate.toString(),
+                end: endDate.toString(),
+                guests: count,
+            },
+        });
+        setSearchInput("");
+    }
+
     function resetInput() {
-        setSearch("");
+        setSearchInput("");
         setStartDate(new Date());
         setEndDate(new Date());
     }
 
     return (
         <header className="sticky top-0 z-50 grid grid-cols-3 bg-white p-5 shadow-md md:px-10">
-            <div className="relative my-auto flex h-6 cursor-pointer items-center md:h-10">
-                <Image
-                    src={"https://links.papareact.com/qd3"}
-                    alt={""}
-                    layout="fill"
-                    objectFit="contain"
-                    objectPosition="left"
-                />
-            </div>
+            <Link href="/">
+                <div className="relative my-auto flex h-6 cursor-pointer items-center md:h-10">
+                    <Image
+                        src={"https://links.papareact.com/qd3"}
+                        alt={""}
+                        layout="fill"
+                        objectFit="contain"
+                        objectPosition="left"
+                    />
+                </div>
+            </Link>
             <div className=" flex items-center justify-center ">
                 <div className="flex w-full rounded-full p-1 md:border-2 md:py-2 md:pl-4 md:pr-2 md:shadow-sm">
                     <input
-                        value={search}
+                        value={searchInput}
                         onChange={(e) =>
-                            setSearch((e.target as HTMLInputElement).value)
+                            setSearchInput((e.target as HTMLInputElement).value)
                         }
                         className="mr-2 w-full flex-grow text-sm text-gray-600 outline-none"
-                        placeholder="search for "
+                        placeholder={placeholder ?? "Start search for"}
                     />
 
                     <MagnifyingGlassIcon className="text-bold hidden h-8 w-8 rounded-full bg-red-400 p-2 text-slate-100 md:inline-flex" />
@@ -58,7 +82,7 @@ function Header() {
 
                 <div
                     className={`${
-                        search.trim() === ""
+                        searchInput.trim() === ""
                             ? "pointer-events-none translate-y-8 opacity-0"
                             : "pointer-events-auto  translate-y-0 opacity-100"
                     } absolute top-20 flex max-w-fit flex-col overflow-hidden rounded-lg bg-white shadow-lg transition-all duration-500 md:top-24`}
@@ -102,7 +126,10 @@ function Header() {
                             >
                                 Cancel
                             </button>
-                            <button className="flex-grow p-2 text-sm text-red-400 transition-all hover:text-red-300 md:p-4 md:text-base">
+                            <button
+                                onClick={search}
+                                className="flex-grow p-2 text-sm text-red-400 transition-all hover:text-red-300 md:p-4 md:text-base"
+                            >
                                 Search
                             </button>
                         </div>
