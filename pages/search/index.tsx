@@ -4,8 +4,15 @@ import Footer from "../../components/Footer";
 import Header from "../../components/Header";
 import OfferCard from "../../components/OfferCard";
 import { format } from "date-fns";
+import {  NextPageContext } from "next";
+import { SearchResult } from "../../interface/Types";
+import Map from "../../components/Map";
 
-function Search() {
+type SearchPageProps = {
+    searchResults: SearchResult[];
+};
+
+function Search({ searchResults }: SearchPageProps) {
     const router = useRouter();
 
     const { start, end, q, guests } = router.query;
@@ -20,8 +27,8 @@ function Search() {
     return (
         <div>
             <Header placeholder={headerPlaceholder} />
-            <main className="mx-auto grid grid-cols-2 space-y-16 px-5 py-4 md:px-10 lg:py-8 ">
-                <section className="col-span-2 flex flex-col lg:col-span-1">
+            <main className="grid grid-cols-2 md:pl-10 ">
+                <section className="col-span-2 flex flex-col py-5 lg:col-span-1 lg:py-10">
                     <p className="mb-2 text-xs">
                         300+ Stays - {range} - for {guests} guests
                     </p>
@@ -36,19 +43,32 @@ function Search() {
                         <button className="button">Price</button>
                     </div>
                     <div className="mx-4 grid divide-y-2 border-y-2">
-                        <OfferCard
-                            title="Stay in special  Edwardian house"
-                            price={30}
-                        />
-                        <OfferCard />
-                        <OfferCard />
+                        {searchResults?.map((result) => {
+                            return <OfferCard {...result} />;
+                        })}
                     </div>
                 </section>
-                <section className="hidden lg:flex"></section>
+                <section className="m-0 hidden lg:inline-flex">
+                    <Map searchResults={searchResults} />
+                </section>
             </main>
             <Footer />
         </div>
     );
 }
 
+export async function getServerSideProps(
+    ctx: NextPageContext
+): Promise<{ props: SearchPageProps }> {
+    console.log(ctx.query);
+
+    const res = await fetch("https://www.jsonkeeper.com/b/5NPS");
+    const searchResults = await res.json();
+
+    return {
+        props: {
+            searchResults,
+        },
+    };
+}
 export default Search;

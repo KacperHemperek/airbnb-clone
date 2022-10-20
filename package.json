@@ -6,13 +6,18 @@
     "start": "next start"
   },
   "dependencies": {
+    "@badrap/bar-of-progress": "^0.2.2",
     "@heroicons/react": "^2.0.12",
+    "@types/mapbox-gl": "^2.7.6",
     "@types/react-date-range": "^1.4.4",
     "date-fns": "^2.29.3",
+    "geolib": "^3.3.3",
+    "mapbox-gl": "^2.10.0",
     "next": "latest",
     "react": "^18.1.0",
     "react-date-range": "^1.4.0",
     "react-dom": "18.1.0",
+    "react-map-gl": "^7.0.19",
     "tailwind-scrollbar-hide": "^1.1.7"
   },
   "devDependencies": {
